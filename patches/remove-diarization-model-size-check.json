@@ -1,0 +1,9 @@
+{
+  "id": "remove-diarization-model-size-check",
+  "description": "移除角色分离（speaker diarization）模型文件的大小精确校验：validateSpeakerDiarizationModelDir 改为只检查文件是否存在，不再比对 SPEAKER_DIARIZATION_SEGMENTATION_BYTES / SPEAKER_DIARIZATION_EMBEDDING_BYTES。",
+  "target": "app/background.js",
+  "contains": "pyannote",
+  "old": "function E(e){var t;const n=[{relative:u().join(\"pyannote\",\"model.onnx\"),bytes:y},{relative:m,bytes:v}],r=s()(t=a()(n).call(n,(({relative:t,bytes:n})=>{try{return c().statSync(u().join(e,t)).size!==n}catch{return!0}}))).call(t,(({relative:e})=>e));return{ok:0===r.length,missing:r}}",
+  "new": "function E(e){var t;const n=[{relative:u().join(\"pyannote\",\"model.onnx\")},{relative:m}],r=s()(t=a()(n).call(n,(({relative:t})=>{try{return!c().existsSync(u().join(e,t))}catch{return!0}}))).call(t,(({relative:e})=>e));return{ok:0===r.length,missing:r}}",
+  "note": "对应源码 modelCatalog.ts 的 validateSpeakerDiarizationModelDir；模式串针对 SmartSub 3.12.2 打包产物（webpack 压缩后的变量名 u/c/m/y/v/s/a），应用升级后需重新提取。"
+}
